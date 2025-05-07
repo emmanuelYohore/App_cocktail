@@ -3,7 +3,6 @@ bin/
 obj/
 out/
 
-appsettings.json
 
 
 
@@ -28,5 +27,5 @@ dist/
 tmp/
 temp/
 
-wwwroot/images/cocktails
+
 
