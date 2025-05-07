@@ -29,7 +29,7 @@
           </div>
 
           <div class="mb-3">
-            <label for="cocktailImage" class="form-label">Image du cocktail</label>
+            <label for="cocktailImage" class="form-label">Image du cocktail*</label>
             <input 
               type="file" 
               class="form-control" 
