@@ -69,15 +69,16 @@
 
               <div class="col-md-6">
                 <label for="category" class="form-label">Catégorie*</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
+                <select 
+                  class="form-select" 
                   id="category" 
                   v-model="newIngredient.category" 
                   required
                   :class="{ 'is-invalid': submitted && !newIngredient.category }"
-                  placeholder="Ex: Spiritueux, Jus, Sirop, etc."
                 >
+                  <option value="" disabled>Choisir une catégorie</option>
+                  <option v-for="(cat, index) in categories" :key="index" :value="cat">{{ cat }}</option>
+                </select>
                 <div class="invalid-feedback">La catégorie est obligatoire</div>
               </div>
             </div>
@@ -166,6 +167,7 @@ export default {
         quantity: 1,
         unit: ''
       },
+      categories: ['Spiritueux', 'Jus', 'Sirop', 'Autre'],
       loading: true,
       error: null,
       submitted: false,
