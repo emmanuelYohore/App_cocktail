@@ -137,6 +137,23 @@
       
       <div class="d-flex gap-2 mt-4">
         <router-link to="/" class="btn btn-secondary">Retour à l'accueil</router-link>
+      </div>      <div v-if="currentUser && currentUser.userId === cocktail.userId" class="d-flex justify-content-end mt-3">
+        <script>
+          console.log('currentUser.userId:', currentUser?.userId);
+          console.log('cocktail.userId:', cocktail?.userId);
+        </script>
+        <router-link 
+          :to="{ name: 'EditCocktail', params: { id: cocktail.cocktailId } }" 
+          class="btn btn-warning me-2"
+        >
+          Modifier
+        </router-link>
+        <button 
+          class="btn btn-danger" 
+          @click="confirmDelete"
+        >
+          Supprimer
+        </button>
       </div>
     </div>
   </div>
@@ -182,7 +199,9 @@ export default {
     async fetchCocktailDetails() {
       this.loading = true;
       this.error = null;
-      
+
+      console.log('ID du cocktail récupéré:', this.cocktailId);
+
       try {
         const cocktailResponse = await CocktailService.getCocktail(this.cocktailId);
         this.cocktail = cocktailResponse.data;
@@ -298,6 +317,21 @@ export default {
       
       return `${baseUrl}${cleanPath.startsWith('/') ? '' : '/'}${cleanPath}`;
     },
+    confirmDelete() {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce cocktail ?')) {
+        this.deleteCocktail();
+      }
+    },
+    async deleteCocktail() {
+      try {
+        await CocktailService.deleteCocktail(this.cocktailId);
+        alert('Cocktail supprimé avec succès.');
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Erreur lors de la suppression du cocktail:', error);
+        alert('Une erreur est survenue lors de la suppression du cocktail. Veuillez réessayer.');
+      }
+    }
   },
   created() {
     this.cocktailId = this.$route.params.id;
@@ -307,6 +341,10 @@ export default {
       this.error = 'ID de cocktail non spécifié.';
       this.loading = false;
     }
+
+    // Debugging currentUser and cocktail
+    console.log('Utilisateur connecté:', this.currentUser);
+    console.log('Cocktail:', this.cocktail);
   }
 };
 </script>

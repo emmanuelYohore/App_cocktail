@@ -48,6 +48,12 @@ const routes = [
     name: 'AddIngredients',
     component: AddIngredients,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/cocktails/:id/edit',
+    name: 'EditCocktail',
+    component: () => import('../views/EditCocktail.vue'),
+    meta: { requiresAuth: true }
   }
 ];
 
