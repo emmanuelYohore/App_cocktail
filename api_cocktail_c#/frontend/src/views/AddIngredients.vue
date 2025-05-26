@@ -21,15 +21,20 @@
           <div v-if="ingredients.length > 0" class="mb-4">
             <h5>Ingrédients ajoutés:</h5>
             <ul class="list-group">
-              <li v-for="(ingredient, index) in ingredients" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
+              <li v-for="(ingredient, index) in ingredients" :key="ingredient.ingredientId || index" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                   <strong>{{ ingredient.name.join(', ') }}</strong>
                   <span class="badge bg-secondary ms-2">{{ ingredient.category }}</span>
                   <span class="ms-2">{{ ingredient.quantity }} {{ ingredient.unit }}</span>
                 </div>
-                <button @click="removeIngredient(index)" class="btn btn-danger btn-sm">
-                  <i class="bi bi-trash"></i>
-                </button>
+                <div>
+                  <button @click="editIngredient(index)" class="btn btn-warning btn-sm me-2">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button @click="deleteIngredient(index)" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
               </li>
             </ul>
           </div>
@@ -172,7 +177,9 @@ export default {
       error: null,
       submitted: false,
       addingIngredient: false,
-      submitting: false
+      submitting: false,
+      isEditing: false,
+      editingIndex: null
     };
   },
   methods: {
@@ -237,8 +244,20 @@ export default {
           unit: this.newIngredient.unit
         };
         
-        // Enregistrer l'ingrédient dans la base de données
-        this.ingredients.push(ingredient);
+        if (this.isEditing && this.editingIndex !== null) {
+          // Modification d'un ingrédient existant
+          const oldIngredient = this.ingredients[this.editingIndex];
+          if (oldIngredient.ingredientId) {
+            await IngredientService.updateIngredient(oldIngredient.ingredientId, ingredient);
+            ingredient.ingredientId = oldIngredient.ingredientId;
+          }
+          this.ingredients.splice(this.editingIndex, 1, ingredient);
+          this.isEditing = false;
+          this.editingIndex = null;
+        } else {
+          // Enregistrer l'ingrédient dans la base de données
+          this.ingredients.push(ingredient);
+        }
         
         this.newIngredient = {
           name: [''],
@@ -249,14 +268,50 @@ export default {
         this.submitted = false;
         
       } catch (error) {
-        console.error('Erreur lors de l\'ajout de l\'ingrédient:', error);
-        alert('Une erreur est survenue. Veuillez réessayer.');
+        alert("Erreur lors de l'ajout ou modification de l'ingrédient.");
       } finally {
         this.addingIngredient = false;
       }
     },
     removeIngredient(index) {
       this.ingredients.splice(index, 1);
+    },
+    async deleteIngredient(index) {
+      const ingredient = this.ingredients[index];
+      if (ingredient.ingredientId) {
+        if (confirm('Voulez-vous vraiment supprimer cet ingrédient ?')) {
+          try {
+            await IngredientService.deleteIngredient(ingredient.ingredientId);
+            this.ingredients.splice(index, 1);
+          } catch (error) {
+            alert("Erreur lors de la suppression de l'ingrédient.");
+          }
+        }
+      } else {
+        this.ingredients.splice(index, 1);
+      }
+    },
+    editIngredient(index) {
+      const ingredient = this.ingredients[index];
+      this.editingIndex = index;
+      this.newIngredient = {
+        name: [...ingredient.name],
+        category: ingredient.category,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit
+      };
+      this.isEditing = true;
+    },
+    cancelEdit() {
+      this.isEditing = false;
+      this.editingIndex = null;
+      this.newIngredient = {
+        name: [''],
+        category: '',
+        quantity: 1,
+        unit: ''
+      };
+      this.submitted = false;
     },
     async finishAddingIngredients() {
       if (this.ingredients.length === 0) {

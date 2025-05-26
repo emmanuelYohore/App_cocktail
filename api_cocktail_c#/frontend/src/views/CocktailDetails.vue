@@ -138,10 +138,7 @@
       <div class="d-flex gap-2 mt-4">
         <router-link to="/" class="btn btn-secondary">Retour à l'accueil</router-link>
       </div>      <div v-if="currentUser && currentUser.userId === cocktail.userId" class="d-flex justify-content-end mt-3">
-        <script>
-          console.log('currentUser.userId:', currentUser?.userId);
-          console.log('cocktail.userId:', cocktail?.userId);
-        </script>
+        
         <router-link 
           :to="{ name: 'EditCocktail', params: { id: cocktail.cocktailId } }" 
           class="btn btn-warning me-2"

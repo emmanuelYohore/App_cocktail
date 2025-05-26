@@ -15,6 +15,10 @@ const UserService = {
 
   updateProfile(userId, userData) {
     return ApiService.put(`/api/user/${userId}`, userData);
+  },
+
+  deleteUser(userId) {
+    return ApiService.delete(`/api/user/${userId}`);
   }
 };
 
