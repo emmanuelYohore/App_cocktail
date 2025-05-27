@@ -236,7 +236,7 @@ export default {
       try {
         const cleanedNames = this.newIngredient.name.filter(name => name.trim() !== '');
         
-        //nouvel ingrédient
+       
         const ingredient = {
           name: cleanedNames,
           category: this.newIngredient.category,
@@ -245,7 +245,7 @@ export default {
         };
         
         if (this.isEditing && this.editingIndex !== null) {
-          // Modification d'un ingrédient existant
+         
           const oldIngredient = this.ingredients[this.editingIndex];
           if (oldIngredient.ingredientId) {
             await IngredientService.updateIngredient(oldIngredient.ingredientId, ingredient);
@@ -255,7 +255,7 @@ export default {
           this.isEditing = false;
           this.editingIndex = null;
         } else {
-          // Enregistrer l'ingrédient dans la base de données
+      
           this.ingredients.push(ingredient);
         }
         
@@ -322,7 +322,7 @@ export default {
       this.submitting = true;
       
       try {
-        // Enregistrer chaque ingrédient dans la base de données
+       
         for (const ingredient of this.ingredients) {
           ingredient.createdAt = new Date();
           ingredient.updatedAt = new Date();

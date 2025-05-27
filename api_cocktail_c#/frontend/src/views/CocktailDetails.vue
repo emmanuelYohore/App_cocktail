@@ -339,9 +339,7 @@ export default {
       this.loading = false;
     }
 
-    // Debugging currentUser and cocktail
-    console.log('Utilisateur connecté:', this.currentUser);
-    console.log('Cocktail:', this.cocktail);
+    
   }
 };
 </script>

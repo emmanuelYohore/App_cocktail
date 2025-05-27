@@ -37,12 +37,7 @@ namespace CocktailApp.Services
 
         public async Task<bool> LogoutAsync(LogoutRequest request)
         {
-            // Implémentation de la déconnexion
-            // Par exemple: invalider le token dans une liste noire
-            // ou supprimer le token de la base de données
-
-            // Cette implémentation simple renvoie toujours true
-            // mais vous devriez implémenter la logique appropriée selon votre système
+           
             return await Task.FromResult(true);
         }
 
@@ -51,7 +46,7 @@ namespace CocktailApp.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
 
-            // Pour debug
+            // debug
             Console.WriteLine($"Key Length: {key.Length * 8} bits");
 
             var tokenDescriptor = new SecurityTokenDescriptor
