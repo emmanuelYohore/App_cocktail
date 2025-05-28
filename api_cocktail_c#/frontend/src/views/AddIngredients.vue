@@ -68,7 +68,7 @@
                   class="btn btn-outline-primary btn-sm mt-2" 
                   @click="addName"
                 >
-                  <i class="bi bi-plus"></i> Ajouter un nom alternatif
+                  <i class="bi bi-plus"></i> Ajouter un autre
                 </button>
               </div>
 

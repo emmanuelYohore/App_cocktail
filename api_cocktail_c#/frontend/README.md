@@ -7,6 +7,8 @@ npm install
 
 npm run serve
 ```
+http://localhost:8080/
+
 frontend/
 ├── public/
 │   ├── index.html
