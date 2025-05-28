@@ -9,20 +9,20 @@
         <div v-if="currentUser">
           <form @submit.prevent="handleUpdate" class="mb-4">
             <div class="mb-3">
-              <label class="form-label">Prénom</label>
+              <label class="form-label">Prénom*</label>
               <input type="text" class="form-control" v-model="user.firstName" required minlength="3" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Nom</label>
+              <label class="form-label">Nom*</label>
               <input type="text" class="form-control" v-model="user.lastName" required minlength="3" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Email</label>
+              <label class="form-label">Email*</label>
               <input type="email" class="form-control" v-model="user.email" required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Nouveau mot de passe</label>
-              <input type="password" class="form-control" v-model="user.password" minlength="6" placeholder="Laisser vide pour ne pas changer" />
+              <label class="form-label">Nouveau mot de passe*</label>
+              <input type="password" class="form-control" v-model="user.password" minlength="6" placeholder="" />
             </div>
             <button type="submit" class="btn btn-primary me-2" :disabled="loading">Mettre à jour</button>
             <button type="button" class="btn btn-danger" @click="confirmDelete" :disabled="loading">Supprimer mon compte</button>
